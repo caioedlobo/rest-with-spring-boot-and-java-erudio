@@ -20,6 +20,24 @@ public class MathController {
         return convertToDouble(numberOne) + convertToDouble(numberTwo);
     }
 
+    @GetMapping(value = "/multi/{numberOne}/{numberTwo}")
+    public Double multi(@PathVariable(value = "numberOne") String numberOne, @PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo)){
+            throw new UnsupportedMathOperationException("Please set a numeric value!");
+        }
+        return convertToDouble(numberOne) * convertToDouble(numberTwo);
+    }
+
+    @GetMapping(value = "/subtract/{numberOne}/{numberTwo}")
+    public Double subtract(@PathVariable(value = "numberOne") String numberOne, @PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo)){
+            throw new UnsupportedMathOperationException("Please set a numeric value!");
+        }
+        return convertToDouble(numberOne) - convertToDouble(numberTwo);
+    }
+
+
+
     private Double convertToDouble(String strNumber) {
         if(strNumber == null){
             return 0D;
