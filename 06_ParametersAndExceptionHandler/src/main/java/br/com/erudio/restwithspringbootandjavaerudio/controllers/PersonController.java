@@ -1,7 +1,7 @@
 package br.com.erudio.restwithspringbootandjavaerudio.controllers;
 
 import br.com.erudio.restwithspringbootandjavaerudio.model.Person;
-import br.com.erudio.restwithspringbootandjavaerudio.services.PersonServices;
+import br.com.erudio.restwithspringbootandjavaerudio.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +18,10 @@ public class PersonController {
     private final AtomicLong counter = new AtomicLong();
 
     @Autowired      // cuida da instanciação do objeto de forma dinâmica em tempo de execução, para usar o Autowired, la na classe tem que ter o @Service, como em PersonServices
-    private PersonServices service;
+    private PersonService service;
     // private PersonServices service = new PersonServices(); não preicsa fazer isso por causa do Autowired
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Person> findById(@PathVariable(value = "id") String id) {
+    public ResponseEntity<Person> findById(@PathVariable(value = "id") Long id) {
         Person person = service.findById(id);
         return ResponseEntity.ok().body(person);
     }
