@@ -3,6 +3,7 @@ package br.com.erudio.restwithspringbootandjavaerudio.controllers;
 import br.com.erudio.restwithspringbootandjavaerudio.model.Person;
 import br.com.erudio.restwithspringbootandjavaerudio.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,33 +18,33 @@ public class PersonController {
     @Autowired      // cuida da instanciação do objeto de forma dinâmica em tempo de execução, para usar o Autowired, la na classe tem que ter o @Service, como em PersonServices
     private PersonService service;
     // private PersonServices service = new PersonServices(); não preicsa fazer isso por causa do Autowired
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)       // precisa do produces só por causa do Swagger
     public ResponseEntity<Person> findById(@PathVariable(value = "id") Long id) {
         Person person = service.findById(id);
         return ResponseEntity.ok().body(person);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Person>> findAll() {
         List<Person> people = service.findAll();
         System.out.println(people);
         return ResponseEntity.ok().body(people);
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Person> create(@RequestBody Person person){
         Person entity = service.create(person);
         return ResponseEntity.ok().body(entity);
     }
 
-    @PutMapping
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Person> update(@RequestBody Person person){
         Person entity = service.update(person);
         return ResponseEntity.ok().body(entity);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Person> delete(@PathVariable(value = "id") Long id){
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
